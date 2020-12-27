@@ -8,6 +8,7 @@ namespace CalculatorConsoleApp
         static void Main(string[] args)
         {
             Action<string> method = (message) => { Console.WriteLine(message); };
+
             Validator validator = new Validator(method);            
 
             while (true)

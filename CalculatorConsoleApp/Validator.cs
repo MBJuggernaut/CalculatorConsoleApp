@@ -8,20 +8,22 @@ namespace CalculatorConsoleApp
 {
     public class Validator
     {
-        private string pattern = @"-?\d+(?:\,\d+)?";
+        private string pattern;
         private string ErrorMessage;
-        private List<string> unallowedPairings = new List<string>() { "/*", "*/", "/+", "+/", "+*", "*+" };
+        private List<string> unallowedPairings;
         private Action<string> method;
 
         public Validator(Action<string> method)
         {
+            pattern = @"-?\d+(?:\,\d+)?";
             this.method = method;
+            unallowedPairings = new List<string>() { "/*", "*/", "/+", "+/", "+*", "*+" };
         }
         public Validator(string newPattern, Action<string> method, List<string> newUnallowedPairings)
         {
             this.method = method;
-            this.pattern = newPattern ?? this.pattern;
-            unallowedPairings = newUnallowedPairings;
+            this.pattern = newPattern ?? @"-?\d+(?:\,\d+)?";
+            unallowedPairings = newUnallowedPairings?? new List<string>() { "/*", "*/", "/+", "+/", "+*", "*+" };
         }
         public bool IsValid(string input)
         {
