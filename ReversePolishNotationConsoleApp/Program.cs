@@ -5,18 +5,20 @@ namespace ReversePolishNotationConsoleApp
 {
     public class Program
     {
-
-        //static string pattern = @"-?\d+(?:\,\d+)?";
+        //static string pattern = @"-?\d+(?:\,\d+)?";        
         static List<char> operators = new List<char>() { '(', ')', '*', '/', '+', '-', ',' };
+
+       
         static void Main(string[] args)
         {
+            Action<string> method = (message) => { Console.WriteLine(message); };
+            Validator validator = new Validator(method);
             var input = Console.ReadLine();
 
-            var y = Splitter.Split(input);
+            if (validator.IsValid(input)) { }
 
-            var z = Parser.Parse(y);
-
-            var result = Calculator.Calc(z);
+            var transformedInput = Splitter.Transform(input);
+            var result = Calculator.Calc(transformedInput);
 
             Console.WriteLine(result);
         }

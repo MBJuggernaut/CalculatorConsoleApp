@@ -1,6 +1,5 @@
-using ReversePolishNotationConsoleApp;
 using NUnit.Framework;
-using System;
+using ReversePolishNotationConsoleApp;
 using System.Collections.Generic;
 
 namespace ReversePolishNotationConsoleAppTest
@@ -23,8 +22,8 @@ namespace ReversePolishNotationConsoleAppTest
         [TestCase()]
         public void SplitTest()
         {
-            List<string> actual = Splitter.Split("2+3");
-            List<string> expectedResult = new List<string>() { "2", "+", "3" };
+            List<object> actual = Splitter.Transform("2+3");
+            List<object> expectedResult = new List<object>() { 2, '+', 3 };
 
             CollectionAssert.AreEqual(actual, expectedResult);
         }

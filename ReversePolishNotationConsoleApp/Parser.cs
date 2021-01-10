@@ -1,5 +1,4 @@
-﻿
-
+﻿using System;
 using System.Collections.Generic;
 
 namespace ReversePolishNotationConsoleApp
@@ -19,7 +18,7 @@ namespace ReversePolishNotationConsoleApp
 
                 else
                 {
-                    parsedList.Add(item);
+                    parsedList.Add(Convert.ToChar(item));
                 }
             }
             return parsedList;

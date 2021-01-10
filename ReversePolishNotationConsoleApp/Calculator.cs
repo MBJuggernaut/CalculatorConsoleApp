@@ -6,12 +6,14 @@ namespace ReversePolishNotationConsoleApp
 {
     public static class Calculator
     {
-        static Stack<double> doubles = new Stack<double>();
-        static Stack<string> stack = new Stack<string>();
-
-
+        static Stack<double> operands = new Stack<double>();
+        static Stack<string> stackOfOperations = new Stack<string>();
+        
         public static double Calc(List<object> input)
         {
+            operands = new Stack<double>();
+            stackOfOperations = new Stack<string>();
+
             Dictionary<string, int> dict = new Dictionary<string, int>()
             {
                 ["+"] = 1,
@@ -20,106 +22,127 @@ namespace ReversePolishNotationConsoleApp
                 ["/"] = 2
             };
 
-
             foreach (var item in input)
             {
                 if (item.GetType() == typeof(double))
                 {
-                    doubles.Push((double)item);
+                    operands.Push((double)item);
                 }
                 else
                 {
-                    if(item.ToString() == ")"|| item.ToString() == "(")
+                    if (stackOfOperations.Count == 0) //если стек пуст
                     {
-                        if (item.ToString() == "(")
-                        {
-                            stack.Push(item.ToString());
-                        }
-                        else
-                        {
-                            string last = stack.Pop();
+                        stackOfOperations.Push(item.ToString());
+                    }
 
-                            while (last != "(")
-                            {
-                                var op = last;
-                                HandleOperation(op);
+                    else if (item.ToString() == "(")
+                    {
+                        stackOfOperations.Push(item.ToString());
+                    }
+                    else if (item.ToString() == ")")
+                    {
+                        string last = stackOfOperations.Pop();
 
-                                last = stack.Pop();
-                            }
+                        while (last != "(")
+                        {
+                            var op = last;
+                            HandleOperation(op);
+
+                            last = stackOfOperations.Pop();
                         }
                     }
-                    else if (stack.Count != 0)
+
+                    else //определяем действие
                     {
+                        int lastOperationFromStackQueue, thisOperationQueue;
+                        var lastOperationFromStack = stackOfOperations.Peek();
 
-                        int x, y;
-                        var last = stack.Peek();
+                        dict.TryGetValue(lastOperationFromStack, out lastOperationFromStackQueue);
+                        dict.TryGetValue(item.ToString(), out thisOperationQueue);
 
-                        dict.TryGetValue(last, out x);
-                        dict.TryGetValue(item.ToString(), out y);
-
-                        if (x >= y)
+                        if (lastOperationFromStackQueue >= thisOperationQueue)
                         {
-                            var op = stack.Pop();
+                            var op = stackOfOperations.Pop();
 
                             HandleOperation(op);
 
-                            stack.Push(item.ToString());
+                            stackOfOperations.Push(item.ToString());
                         }
                         else
                         {
-                            stack.Push(item.ToString());
+                            stackOfOperations.Push(item.ToString());
                         }
                     }
-                    else
-                    {
-                        stack.Push(item.ToString());
-                    }
+
                 }
-
             }
 
-            while (stack.Count != 0)
+            while (stackOfOperations.Count != 0)
             {
-                var op = stack.Pop();
+                var op = stackOfOperations.Pop();
 
-                HandleOperation(op);
+                if (operands.Count >= 2)
+                {
+                    HandleOperation(op);
+                }
+                else
+                {
+                    //ошибка мало операндов
+                    Console.WriteLine("ошибка мало операндов");
+                    break;
+                }
             }
 
-            double result = doubles.Pop();
-            return result;
+            if (operands.Count == 1)
+            {
+                double result = operands.Pop();
+                return result;
+            }
+
+            else
+            {
+                //ошибка много операндов
+                return -1;
+            }
         }
 
         private static void HandleOperation(string op)
         {
-            double y = doubles.Pop();
-            double x = doubles.Pop();
-            switch (op)
+            double firstOperand, secondOperand;
+
+            if (operands.TryPop(out secondOperand) && operands.TryPop(out firstOperand))
             {
-                case "+": Sum(x, y); break;
-                case "-": Substract(x, y); break;
-                case "*": Multiply(x, y); break;
-                case "/": Divide(x, y); break;
+                double resultOfoperation = 0;
+                switch (op)
+                {
+                    case "+": resultOfoperation = Sum(firstOperand, secondOperand); break;
+                    case "-": resultOfoperation = Substract(firstOperand, secondOperand); break;
+                    case "*": resultOfoperation = Multiply(firstOperand, secondOperand); break;
+                    case "/": resultOfoperation = Divide(firstOperand, secondOperand); break;
+                }
+
+                operands.Push(resultOfoperation);
             }
         }
 
-        private static void Sum(double x, double y)
+        private static double Sum(double x, double y)
         {
-            doubles.Push(x + y);
+            return x + y;
         }
 
-        private static void Substract(double x, double y)
+        private static double Substract(double x, double y)
         {
-            doubles.Push(x - y);
+            return x - y;
         }
 
-        private static void Multiply(double x, double y)
+        private static double Multiply(double x, double y)
         {
-            doubles.Push(x * y);
+            return x * y;
         }
 
-        private static void Divide(double x, double y)
+        private static double Divide(double x, double y)
         {
-            doubles.Push(x / y);
+            return x / y;
         }
     }
 }
