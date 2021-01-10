@@ -7,6 +7,10 @@ namespace ReversePolishNotationConsoleAppTest
     [TestFixture]
     class ValidatorTests
     {
+        static Action<string> method = (message) => { Console.WriteLine(message); };
+        Validator validator = new Validator(method);
+
+
         [TestCase("2+2", true)]
         [TestCase("2+2*(30/2)", true)]
         [TestCase("2+2ahsh", false)]        
@@ -19,9 +23,6 @@ namespace ReversePolishNotationConsoleAppTest
 
         public void IsValidTest(string input, bool expextedValue)
         {
-            Action<string> method = (message) => { Console.WriteLine(message); };
-            Validator validator = new Validator(method);
-
             var actual = validator.IsValid(input);
 
             Assert.AreEqual(expextedValue, actual);

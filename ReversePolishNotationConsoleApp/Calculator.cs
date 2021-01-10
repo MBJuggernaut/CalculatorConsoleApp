@@ -4,12 +4,12 @@ using System.Text;
 
 namespace ReversePolishNotationConsoleApp
 {
-    public static class Calculator
+    public class Calculator: ICalculator
     {
         static Stack<double> operands = new Stack<double>();
         static Stack<string> stackOfOperations = new Stack<string>();
         
-        public static double Calc(List<object> input)
+        public double Calc(List<object> input)
         {
             operands = new Stack<double>();
             stackOfOperations = new Stack<string>();

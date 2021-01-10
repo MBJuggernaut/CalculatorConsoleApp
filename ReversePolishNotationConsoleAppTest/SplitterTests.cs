@@ -20,7 +20,7 @@ namespace ReversePolishNotationConsoleAppTest
         }
 
         [TestCase()]
-        public void SplitTest()
+        public void TransformTest()
         {
             List<object> actual = Splitter.Transform("2+3");
             List<object> expectedResult = new List<object>() { 2, '+', 3 };
