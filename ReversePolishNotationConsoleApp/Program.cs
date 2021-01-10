@@ -10,7 +10,7 @@ namespace ReversePolishNotationConsoleApp
             Action<string> method = (message) => { Console.WriteLine(message); };
             List<char> operators = new List<char>() { '(', ')', '*', '/', '+', '-', ',' };
             IValidator validator = new Validator(operators, method);
-            ICalculator calculator = new Calculator();
+            ICalculator calculator = new Calculator(method);
             while (true)
             {
                 var input = Console.ReadLine();
@@ -18,10 +18,15 @@ namespace ReversePolishNotationConsoleApp
                 if (validator.IsValid(input))
                 {
                     var transformedInput = Splitter.Transform(input);
-                    var result = calculator.Calc(transformedInput);
+                    double result;
 
-                    Console.WriteLine(result);
+                    if (calculator.TryToCalc(transformedInput, out result))
+                        Console.WriteLine(result);
+
+                    else calculator.ShowError();
                 }
+
+                else validator.ShowError();
             }
         }
 

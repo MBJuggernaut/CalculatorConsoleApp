@@ -8,18 +8,14 @@ namespace ReversePolishNotationConsoleApp
 {
     public class Validator: IValidator
     {
-        private string pattern;
-        private string ErrorMessage;
-        List<char> operators;
-
-
+        private string pattern = @"-?\d+(?:\,\d+)?";
+        private string ErrorMessage = "";
+        List<char> operators = new List<char>() { '(', ')', '*', '/', '+', '-', ',' };
         private Action<string> method;
 
         public Validator(Action<string> method)
-        {
-            pattern = @"-?\d+(?:\,\d+)?";
-            this.method = method;
-            List<char> operators = new List<char>() { '(', ')', '*', '/', '+', '-', ',' };
+        {            
+            this.method = method;            
         }
         public Validator(string newPattern, Action<string> method)
         {

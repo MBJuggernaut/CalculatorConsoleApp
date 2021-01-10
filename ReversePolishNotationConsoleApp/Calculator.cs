@@ -6,15 +6,36 @@ namespace ReversePolishNotationConsoleApp
 {
     public class Calculator: ICalculator
     {
-        static Stack<double> operands;
+        static Stack<double> stackOfOperands;
         static Stack<string> stackOfOperations;
+        string ErrorMessage = "";
+        private Action<string> method;
+
+        public Calculator(Action<string> method)
+        {
+            this.method = method;
+        }
+
+        public bool TryToCalc(List<object> input, out double result)
+        {
+            double d = Calc(input);
+
+            if (ErrorMessage == "")
+            {
+                result = d;
+                return true;                
+            }
+
+            result = 0;
+            return false;
+        }
 
         public double Calc(List<object> input)
         {
-            operands = new Stack<double>();
+            stackOfOperands = new Stack<double>();
             stackOfOperations = new Stack<string>();
 
-            Dictionary<string, int> dict = new Dictionary<string, int>()
+            Dictionary<string, int> levelsOfImportanceForOperations = new Dictionary<string, int>()
             {
                 ["+"] = 1,
                 ["-"] = 1,
@@ -26,7 +47,7 @@ namespace ReversePolishNotationConsoleApp
             {
                 if (item.GetType() == typeof(double))
                 {
-                    operands.Push((double)item);
+                    stackOfOperands.Push((double)item);
                 }
                 else
                 {
@@ -52,13 +73,13 @@ namespace ReversePolishNotationConsoleApp
                         }
                     }
 
-                    else //определяем действие
+                    else //определяем и совершаем действие
                     {
                         int lastOperationFromStackQueue, thisOperationQueue;
                         var lastOperationFromStack = stackOfOperations.Peek();
 
-                        dict.TryGetValue(lastOperationFromStack, out lastOperationFromStackQueue);
-                        dict.TryGetValue(item.ToString(), out thisOperationQueue);
+                        levelsOfImportanceForOperations.TryGetValue(lastOperationFromStack, out lastOperationFromStackQueue);
+                        levelsOfImportanceForOperations.TryGetValue(item.ToString(), out thisOperationQueue);
 
                         if (lastOperationFromStackQueue >= thisOperationQueue)
                         {
@@ -81,28 +102,27 @@ namespace ReversePolishNotationConsoleApp
             {
                 var op = stackOfOperations.Pop();
 
-                if (operands.Count >= 2)
+                if (stackOfOperands.Count >= 2)
                 {
                     HandleOperation(op);
                 }
                 else
                 {
-                    //ошибка мало операндов
-                    Console.WriteLine("ошибка мало операндов");
+                    ErrorMessage = "Мало операндов";
                     break;
                 }
             }
 
-            if (operands.Count == 1)
+            if (stackOfOperands.Count == 1)
             {
-                double result = operands.Pop();
+                double result = stackOfOperands.Pop();
                 return result;
             }
 
             else
             {
-                //ошибка много операндов
-                return -1;
+                ErrorMessage = "Много операндов";
+                return 0;
             }
         }
 
@@ -110,7 +130,7 @@ namespace ReversePolishNotationConsoleApp
         {
             double firstOperand, secondOperand;
 
-            if (operands.TryPop(out secondOperand) && operands.TryPop(out firstOperand))
+            if (stackOfOperands.TryPop(out secondOperand) && stackOfOperands.TryPop(out firstOperand))
             {
                 double resultOfoperation = 0;
                 switch (op)
@@ -121,7 +141,7 @@ namespace ReversePolishNotationConsoleApp
                     case "/": resultOfoperation = Divide(firstOperand, secondOperand); break;
                 }
 
-                operands.Push(resultOfoperation);
+                stackOfOperands.Push(resultOfoperation);
             }
         }
 
@@ -143,6 +163,11 @@ namespace ReversePolishNotationConsoleApp
         private static double Divide(double x, double y)
         {
             return x / y;
+        }
+
+        public void ShowError()
+        {
+            method?.Invoke(ErrorMessage);
         }
     }
 }
