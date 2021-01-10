@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorConsoleApp", "Cal
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorConsoleAppTests", "..\CalculatorConsoleAppTests\CalculatorConsoleAppTests.csproj", "{B542355F-3F20-4181-8F16-862913ED5000}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReversePolishNotationConsoleApp", "..\ReversePolishNotationConsoleApp\ReversePolishNotationConsoleApp.csproj", "{FEAE575A-72D9-44D2-8DF6-AA93B4ED57B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReversePolishNotationConsoleAppTest", "..\ReversePolishNotationConsoleAppTest\ReversePolishNotationConsoleAppTest.csproj", "{29C12660-6ABB-467F-9823-D3B8457C5BE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{B542355F-3F20-4181-8F16-862913ED5000}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B542355F-3F20-4181-8F16-862913ED5000}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B542355F-3F20-4181-8F16-862913ED5000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEAE575A-72D9-44D2-8DF6-AA93B4ED57B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEAE575A-72D9-44D2-8DF6-AA93B4ED57B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEAE575A-72D9-44D2-8DF6-AA93B4ED57B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEAE575A-72D9-44D2-8DF6-AA93B4ED57B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29C12660-6ABB-467F-9823-D3B8457C5BE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29C12660-6ABB-467F-9823-D3B8457C5BE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29C12660-6ABB-467F-9823-D3B8457C5BE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29C12660-6ABB-467F-9823-D3B8457C5BE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
