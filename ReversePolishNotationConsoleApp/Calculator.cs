@@ -6,9 +6,9 @@ namespace ReversePolishNotationConsoleApp
 {
     public class Calculator: ICalculator
     {
-        static Stack<double> operands = new Stack<double>();
-        static Stack<string> stackOfOperations = new Stack<string>();
-        
+        static Stack<double> operands;
+        static Stack<string> stackOfOperations;
+
         public double Calc(List<object> input)
         {
             operands = new Stack<double>();

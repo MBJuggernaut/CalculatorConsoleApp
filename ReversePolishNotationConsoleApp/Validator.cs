@@ -6,23 +6,30 @@ using System.Text.RegularExpressions;
 
 namespace ReversePolishNotationConsoleApp
 {
-    public class Validator
+    public class Validator: IValidator
     {
         private string pattern;
         private string ErrorMessage;
-        
+        List<char> operators;
+
+
         private Action<string> method;
 
         public Validator(Action<string> method)
         {
             pattern = @"-?\d+(?:\,\d+)?";
             this.method = method;
-            
+            List<char> operators = new List<char>() { '(', ')', '*', '/', '+', '-', ',' };
         }
         public Validator(string newPattern, Action<string> method)
         {
             this.method = method;
             this.pattern = newPattern ?? @"-?\d+(?:\,\d+)?";            
+        }
+        public Validator(List<char> operators, Action<string> method)
+        {
+            this.method = method;
+            this.operators = operators;
         }
         public bool IsValid(string input)
         {

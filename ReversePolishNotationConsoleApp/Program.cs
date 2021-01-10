@@ -4,23 +4,24 @@ using System.Collections.Generic;
 namespace ReversePolishNotationConsoleApp
 {
     public class Program
-    {
-        //static string pattern = @"-?\d+(?:\,\d+)?";        
-        static List<char> operators = new List<char>() { '(', ')', '*', '/', '+', '-', ',' };
-       
+    {           
         static void Main(string[] args)
         {
             Action<string> method = (message) => { Console.WriteLine(message); };
-            Validator validator = new Validator(method);
+            List<char> operators = new List<char>() { '(', ')', '*', '/', '+', '-', ',' };
+            IValidator validator = new Validator(operators, method);
             ICalculator calculator = new Calculator();
-            var input = Console.ReadLine();
-
-            if (validator.IsValid(input))
+            while (true)
             {
-                var transformedInput = Splitter.Transform(input);
-                var result = calculator.Calc(transformedInput);
+                var input = Console.ReadLine();
 
-                Console.WriteLine(result);
+                if (validator.IsValid(input))
+                {
+                    var transformedInput = Splitter.Transform(input);
+                    var result = calculator.Calc(transformedInput);
+
+                    Console.WriteLine(result);
+                }
             }
         }
 
