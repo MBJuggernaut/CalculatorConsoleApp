@@ -7,31 +7,29 @@ namespace ReversePolishNotationConsoleApp
     public class Calculator: ICalculator
     {
         private Stack<double> operands;
-        private Stack<char> operations;               
+        private Stack<char> operations;
+        private readonly Dictionary<char, int> levelsOfImportanceForOperations = new Dictionary<char, int>()
+        {
+            ['+'] = 1,
+            ['-'] = 1,
+            ['*'] = 2,
+            ['/'] = 2
+        };
 
         public double Calc(List<object> input)
         {
             operands = new Stack<double>();
             operations = new Stack<char>();
 
-            Dictionary<char, int> levelsOfImportanceForOperations = new Dictionary<char, int>()
-            {
-                ['+'] = 1,
-                ['-'] = 1,
-                ['*'] = 2,
-                ['/'] = 2,
-                ['%'] = 2
-            };
-
             foreach (var item in input)
             {
-                if (item.GetType() == typeof(double))
+                if (IsOperand(item))
                 {
                     operands.Push((double)item);
                 }
                 else
                 {
-                    if (operations.Count == 0) //если стек пуст
+                    if (operations.Count == 0)
                     {
                         operations.Push((char)item);
                     }
@@ -40,39 +38,14 @@ namespace ReversePolishNotationConsoleApp
                     {
                         operations.Push((char)item);
                     }
-                    else if ((char)item == ')')
+                    else if ((char)item == ')') 
                     {
-                        char last = operations.Pop();
-
-                        while (last != '(')
-                        {
-                            var op = last;
-                            HandleOperation(op);
-
-                            last = operations.Pop();
-                        }
+                        DoWhatIsBetweenBrackets();                        
                     }
-
-                    else //определяем и совершаем действие
+                    else
                     {
-
-                        levelsOfImportanceForOperations.TryGetValue(operations.Peek(), out int lastOperationFromStackQueue);
-                        levelsOfImportanceForOperations.TryGetValue((char)item, out int thisOperationQueue);
-
-                        if (lastOperationFromStackQueue >= thisOperationQueue)
-                        {
-                            var op = operations.Pop();
-
-                            HandleOperation(op);
-
-                            operations.Push((char)item);
-                        }
-                        else
-                        {
-                            operations.Push((char)item);
-                        }
+                        ChooseAndDoNextAction(item);                        
                     }
-
                 }
             }
 
@@ -98,26 +71,70 @@ namespace ReversePolishNotationConsoleApp
 
             else
             {
-                throw new Exception("Много операндов");
+                throw new Exception("Недостаточно операций");
             }
         }
-        private void HandleOperation(char op)
+        /// <summary>
+        /// Делаем все операции из стека, пока не дойдем до открывающей скобки
+        /// </summary>
+        private void DoWhatIsBetweenBrackets()
+        {
+            char last = operations.Pop();
+
+            while (last != '(')
+            {
+                var operationToHandle = last;
+                HandleOperation(operationToHandle);
+
+                last = operations.Pop();
+            }
+        }
+
+        /// <summary>
+        /// Исходя из заданной важности операций решаем, отправить текущую оперцию в стек, или проделать уже лежащие в стеке более важные операции
+        /// </summary>
+        private void ChooseAndDoNextAction(object item)
+        {
+            
+            levelsOfImportanceForOperations.TryGetValue(operations.Peek(), out int lastOperationFromStackQueue);
+            levelsOfImportanceForOperations.TryGetValue((char)item, out int thisOperationQueue);
+
+            if (lastOperationFromStackQueue >= thisOperationQueue)
+            {
+                var op = operations.Pop();
+
+                HandleOperation(op);
+
+                operations.Push((char)item);
+            }
+            else
+            {
+                operations.Push((char)item);
+            }
+        }
+        private void HandleOperation(char operationToHandle)
         {
 
             if (operands.TryPop(out double secondOperand) && operands.TryPop(out double firstOperand))
             {
                 double resultOfoperation = 0;
-                switch (op)
+                switch (operationToHandle)
                 {
                     case '+': resultOfoperation = firstOperand + secondOperand; break;
                     case '-': resultOfoperation = firstOperand - secondOperand; break;
                     case '*': resultOfoperation = firstOperand * secondOperand; break;
-                    case '/': resultOfoperation = firstOperand / secondOperand; break;
-                    case '%': resultOfoperation = firstOperand % secondOperand; break;
+                    case '/': resultOfoperation = firstOperand / secondOperand; break;                   
                 }
 
                 operands.Push(resultOfoperation);
             }
         }
+        private bool IsOperand(object item)
+        {
+            return item.GetType() == typeof(double);
+        }
+
+
+        
     }
 }

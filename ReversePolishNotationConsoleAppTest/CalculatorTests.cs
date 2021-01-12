@@ -40,8 +40,7 @@ namespace ReversePolishNotationConsoleAppTest
         }
 
         [TestCase("4++")]
-        [TestCase("4*3-2++4")]
-        [TestCase("")]
+        [TestCase("4*3-2++4")]        
         [TestCase("3**6+7")]
         [TestCase("++")]
 
@@ -62,7 +61,8 @@ namespace ReversePolishNotationConsoleAppTest
         [TestCase("4 4")]
         [TestCase("4*3-2+4 6 7")]
         [TestCase("3")]
-        public void CalcTest_WrongInput_TooManyOperands(string input)
+        [TestCase("")]
+        public void CalcTest_WrongInput_NotEnoughOperations(string input)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace ReversePolishNotationConsoleAppTest
             }
             catch (Exception ex)
             {
-                Assert.AreEqual(ex.Message, "Много операндов");
+                Assert.AreEqual(ex.Message, "Недостаточно операций");
             }
 
         }
