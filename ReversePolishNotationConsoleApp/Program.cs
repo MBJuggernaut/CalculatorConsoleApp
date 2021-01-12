@@ -7,8 +7,9 @@ namespace ReversePolishNotationConsoleApp
     {           
         static void Main()
         {                        
-            IValidate validator = new Validator();
-            ICalculate calculator = new Calculator();
+            IValidator validator = new Validator();
+            ICalculator calculator = new Calculator();
+            ISplitter splitter = new Splitter();
 
             while (true)
             {
@@ -16,8 +17,8 @@ namespace ReversePolishNotationConsoleApp
                 {
                     var input = Console.ReadLine();
                     validator.IsValid(input);
-                    var transformedInput = Splitter.Transform(input);
-                    calculator.Calc(transformedInput);
+                    var splittedInput = splitter.MakeAListOfOperandsAndOperators(input);
+                    calculator.Calc(splittedInput);
                 }
                 catch (Exception e)
                 {

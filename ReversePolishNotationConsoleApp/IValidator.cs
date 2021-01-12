@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ReversePolishNotationConsoleApp
 {
-    public interface IValidate
+    public interface IValidator
     {
         bool IsValid(string input);        
     }

@@ -3,9 +3,21 @@ using System.Text.RegularExpressions;
 
 namespace ReversePolishNotationConsoleApp
 {
-    public static class Splitter//разбивает введенную строку на список отдельных элементов
+    public class Splitter: ISplitter
     {
-        public static List<object> Transform(string input)
+        private readonly string pattern;
+
+        public Splitter(string pattern)
+        {
+            this.pattern = pattern;   
+        }
+
+        public Splitter()
+        {
+            pattern = @"-?\d+(?:\,\d+)?";
+        }
+
+        public List<object> MakeAListOfOperandsAndOperators(string input)
         {
             var output = new List<object>();
             char current;
@@ -41,27 +53,25 @@ namespace ReversePolishNotationConsoleApp
                     output.Add(current);
                     continue;
                 }
-            }            
+            }
             return output;
         }
-        public static string GetNextOperand(string input, int index)
+        public string GetNextOperand(string input, int index)
         {
-            string pattern = @"-?\d+(?:\,\d+)?";
-
             string rightpartofinput = input.Substring(index);
 
             var alloperands = Regex.Matches(rightpartofinput, pattern);
 
             return alloperands[0].Value;
         }
-        public static void GetParseAndPutToOutput(string input, ref int index, ref List<object> output)
+        private void GetParseAndPutToOutput(string input, ref int index, ref List<object> output)
         {
             var nextOperand_string = GetNextOperand(input, index);
             var nextOperand_double = double.Parse(nextOperand_string);
 
             output.Add(nextOperand_double);
             index += nextOperand_string.Length - 1;
-                        
+
         }
     }
 }

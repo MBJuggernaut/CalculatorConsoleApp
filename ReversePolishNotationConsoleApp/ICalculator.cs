@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ReversePolishNotationConsoleApp
 {
-    public interface ICalculate
+    public interface ICalculator
     {
         double Calc(List<object> input);       
     }

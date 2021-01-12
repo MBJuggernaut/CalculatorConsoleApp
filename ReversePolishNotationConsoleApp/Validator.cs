@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ReversePolishNotationConsoleApp
 {
-    public class Validator: IValidate
+    public class Validator: IValidator
     {
         private readonly string pattern;
         private readonly List<char> operators;
@@ -26,6 +26,7 @@ namespace ReversePolishNotationConsoleApp
         }
         public bool IsValid(string input)
         {
+            FixInput(ref input);
             return ContainsOnlyAllowedSymbols(input) && ContainsRightAmountOfBrackets(input) && !ContainsExtraComma(input);
         }
         private bool ContainsRightAmountOfBrackets(string input)
@@ -54,7 +55,7 @@ namespace ReversePolishNotationConsoleApp
                     throw new Exception("Строка не должна содержать букв");                    
                 }
                 if (!operators.Contains(current))
-                {
+                {                    
                     throw new Exception("Строка содержит символы, которых быть не должно");                    
                 }
             }
@@ -79,11 +80,11 @@ namespace ReversePolishNotationConsoleApp
         }
         public void FixInput(ref string input)
         {
-            input = input.Trim();
+            input = input.Replace(" ", "");
 
             input = input.Replace('.', ',');
 
-            input = input.Replace("--", "");
+            input = input.Replace("--", "+");
 
 
             for (int i = 0; i < input.Length; i++)

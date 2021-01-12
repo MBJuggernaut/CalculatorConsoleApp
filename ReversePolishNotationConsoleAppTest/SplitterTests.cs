@@ -22,7 +22,7 @@ namespace ReversePolishNotationConsoleAppTest
         [TestCase()]
         public void TransformTest()
         {
-            List<object> actual = Splitter.Transform("2+3");
+            List<object> actual = Splitter.MakeAListOfOperandsAndOperators("2+3");
             List<object> expectedResult = new List<object>() { 2, '+', 3 };
 
             CollectionAssert.AreEqual(actual, expectedResult);

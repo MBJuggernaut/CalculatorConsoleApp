@@ -1,17 +1,16 @@
-﻿using NUnit.Framework;
+﻿
+using NUnit.Framework;
 using ReversePolishNotationConsoleApp;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ReversePolishNotationConsoleAppTest
 {
     [TestFixture]
-    class CalculatorTests
+    public class CalculatorTests
     {
-        private readonly Calculator calculator = new Calculator();
-        private readonly IValidate validator = new Validator();
-
+        private readonly ICalculator calculator = new Calculator();
+        private readonly ISplitter splitter = new Splitter();
+      
         [TestCase("2+3", 5)]
         [TestCase("2*3", 6)]
         [TestCase("2+2*2", 6)]
@@ -29,19 +28,52 @@ namespace ReversePolishNotationConsoleAppTest
         [TestCase("6/3", 2)]
         [TestCase("-8/2", -4)]
         [TestCase("8/2*5", 20)]
-        [TestCase("(3 – 6) * (2 + 1)", -9)]
         [TestCase("2,5*2,5", 6.25)]
-        [TestCase("4+(3-1)*4/(1+1)", 8)]
-        [TestCase("11%10", 1)]
+        [TestCase("4+(3-1)*4/(1+1)", 8)]      
 
-
-        public void CalcTest(string input, double result)
-        {
-            validator.IsValid(input);
-            var transformedInput = Splitter.Transform(input);
+        public void CalcTest_RightInput(string input, double result)
+        {            
+            var transformedInput = splitter.MakeAListOfOperandsAndOperators(input);
             var actual = calculator.Calc(transformedInput);
 
             Assert.AreEqual(actual, result);
+        }
+
+        [TestCase("4++")]
+        [TestCase("4*3-2++4")]
+        [TestCase("")]
+        [TestCase("3**6+7")]
+        [TestCase("++")]
+
+
+        public void CalcTest_WrongInput_NotEnoughOperands(string input)
+        {
+            try
+            {
+                var transformedInput = splitter.MakeAListOfOperandsAndOperators(input);
+                var actual = calculator.Calc(transformedInput);
+            }
+            catch(Exception ex)
+            {
+                Assert.AreEqual(ex.Message, "Мало операндов");
+            }
+            
+        }
+        [TestCase("4 4")]
+        [TestCase("4*3-2+4 6 7")]
+        [TestCase("3")]
+        public void CalcTest_WrongInput_TooManyOperands(string input)
+        {
+            try
+            {
+                var transformedInput = splitter.MakeAListOfOperandsAndOperators(input);
+                var actual = calculator.Calc(transformedInput);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(ex.Message, "Много операндов");
+            }
+
         }
     }
 }

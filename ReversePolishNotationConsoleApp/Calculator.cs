@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ReversePolishNotationConsoleApp
 {
-    public class Calculator: ICalculate
+    public class Calculator: ICalculator
     {
         private Stack<double> operands;
         private Stack<char> operations;               
