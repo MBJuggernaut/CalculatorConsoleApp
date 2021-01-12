@@ -7,8 +7,8 @@ namespace ReversePolishNotationConsoleAppTest
     [TestFixture]
     class ValidatorTests
     {
-        static Action<string> method = (message) => { Console.WriteLine(message); };
-        Validator validator = new Validator(method);
+        
+        Validator validator = new Validator();
 
 
         [TestCase("2+2", true)]

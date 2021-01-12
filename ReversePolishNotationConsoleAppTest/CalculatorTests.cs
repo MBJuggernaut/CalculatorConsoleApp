@@ -9,7 +9,8 @@ namespace ReversePolishNotationConsoleAppTest
     [TestFixture]
     class CalculatorTests
     {
-        Calculator calculator = new Calculator(null);
+        private readonly Calculator calculator = new Calculator();
+        private readonly IValidate validator = new Validator();
 
         [TestCase("2+3", 5)]
         [TestCase("2*3", 6)]
@@ -28,13 +29,16 @@ namespace ReversePolishNotationConsoleAppTest
         [TestCase("6/3", 2)]
         [TestCase("-8/2", -4)]
         [TestCase("8/2*5", 20)]
-        [TestCase("2,5*2", 5)]
+        [TestCase("(3 – 6) * (2 + 1)", -9)]
         [TestCase("2,5*2,5", 6.25)]
-        [TestCase("4+(3-1)*4/(1+1)", 8)]        
+        [TestCase("4+(3-1)*4/(1+1)", 8)]
+        [TestCase("11%10", 1)]
 
-        public void CalcTest(string input, double result)        
-        {            
-            var transformedInput = Splitter.Transform(input);           
+
+        public void CalcTest(string input, double result)
+        {
+            validator.IsValid(input);
+            var transformedInput = Splitter.Transform(input);
             var actual = calculator.Calc(transformedInput);
 
             Assert.AreEqual(actual, result);

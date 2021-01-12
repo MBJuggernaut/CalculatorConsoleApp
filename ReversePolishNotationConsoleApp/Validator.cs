@@ -6,25 +6,22 @@ using System.Text.RegularExpressions;
 
 namespace ReversePolishNotationConsoleApp
 {
-    public class Validator: IValidator
+    public class Validator: IValidate
     {
-        private string pattern = @"-?\d+(?:\,\d+)?";
-        private string ErrorMessage = "";
-        List<char> operators = new List<char>() { '(', ')', '*', '/', '+', '-', ',' };
-        private Action<string> method;
+        private readonly string pattern;
+        private readonly List<char> operators;
 
-        public Validator(Action<string> method)
-        {            
-            this.method = method;            
-        }
-        public Validator(string newPattern, Action<string> method)
+        public Validator()
         {
-            this.method = method;
+            pattern = @"-?\d+(?:\,\d+)?";
+            operators = new List<char>() { '(', ')', '*', '/', '+', '-', ',' };
+        }
+        public Validator(string newPattern)
+        {            
             this.pattern = newPattern ?? @"-?\d+(?:\,\d+)?";            
         }
-        public Validator(List<char> operators, Action<string> method)
-        {
-            this.method = method;
+        public Validator(List<char> operators)
+        {            
             this.operators = operators;
         }
         public bool IsValid(string input)
@@ -37,16 +34,14 @@ namespace ReversePolishNotationConsoleApp
             int countOfClosingBrackets = input.Count(x => x == ')');
 
             if (!(countOfOpeningBrackets == countOfClosingBrackets))
-            {
-                ErrorMessage = "Открывающих и закрывающих скобок должно быть одинаковое количество";
-                return false;
+            {               
+                throw new Exception("Открывающих и закрывающих скобок должно быть одинаковое количество");               
             }
             return true;
         }
         private bool ContainsOnlyAllowedSymbols(string input)
         {
-            char current;
-            List<char> allowedSymbols = new List<char>() { '(', ')', '*', '/', '+', '-', ',' };
+            char current;           
 
             for (int i = 0; i < input.Length; i++)
             {
@@ -56,13 +51,11 @@ namespace ReversePolishNotationConsoleApp
                     continue;
                 if (char.IsLetter(current))
                 {
-                    ErrorMessage = "Строка не должна содержать букв";
-                    return false;
+                    throw new Exception("Строка не должна содержать букв");                    
                 }
-                if (!allowedSymbols.Contains(current))
+                if (!operators.Contains(current))
                 {
-                    ErrorMessage = "Строка содержит символы, которых быть не должно";
-                    return false;
+                    throw new Exception("Строка содержит символы, которых быть не должно");                    
                 }
             }
 
@@ -79,15 +72,10 @@ namespace ReversePolishNotationConsoleApp
 
             if (input.Contains(','))
             {
-                ErrorMessage = "Кажется, у вас были лишние запятые";
-                return true;
+                throw new Exception("Кажется, у вас были лишние запятые");                
             }
 
             return false;
-        }
-        public void ShowError()
-        {
-            method?.Invoke(ErrorMessage);
         }
         public void FixInput(ref string input)
         {

@@ -4,10 +4,8 @@ using System.Text;
 
 namespace ReversePolishNotationConsoleApp
 {
-    public interface ICalculator
+    public interface ICalculate
     {
-        double Calc(List<object> input);
-        bool TryToCalc(List<object> input, out double result);
-        void ShowError();
+        double Calc(List<object> input);       
     }
 }

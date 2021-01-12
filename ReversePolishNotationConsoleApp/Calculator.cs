@@ -4,170 +4,120 @@ using System.Text;
 
 namespace ReversePolishNotationConsoleApp
 {
-    public class Calculator: ICalculator
+    public class Calculator: ICalculate
     {
-        static Stack<double> stackOfOperands;
-        static Stack<string> stackOfOperations;
-        string ErrorMessage = "";
-        private Action<string> method;
-
-        public Calculator(Action<string> method)
-        {
-            this.method = method;
-        }
-
-        public bool TryToCalc(List<object> input, out double result)
-        {
-            double d = Calc(input);
-
-            if (ErrorMessage == "")
-            {
-                result = d;
-                return true;                
-            }
-
-            result = 0;
-            return false;
-        }
+        private Stack<double> operands;
+        private Stack<char> operations;               
 
         public double Calc(List<object> input)
         {
-            stackOfOperands = new Stack<double>();
-            stackOfOperations = new Stack<string>();
+            operands = new Stack<double>();
+            operations = new Stack<char>();
 
-            Dictionary<string, int> levelsOfImportanceForOperations = new Dictionary<string, int>()
+            Dictionary<char, int> levelsOfImportanceForOperations = new Dictionary<char, int>()
             {
-                ["+"] = 1,
-                ["-"] = 1,
-                ["*"] = 2,
-                ["/"] = 2
+                ['+'] = 1,
+                ['-'] = 1,
+                ['*'] = 2,
+                ['/'] = 2,
+                ['%'] = 2
             };
 
             foreach (var item in input)
             {
                 if (item.GetType() == typeof(double))
                 {
-                    stackOfOperands.Push((double)item);
+                    operands.Push((double)item);
                 }
                 else
                 {
-                    if (stackOfOperations.Count == 0) //если стек пуст
+                    if (operations.Count == 0) //если стек пуст
                     {
-                        stackOfOperations.Push(item.ToString());
+                        operations.Push((char)item);
                     }
 
-                    else if (item.ToString() == "(")
+                    else if ((char)item=='(')
                     {
-                        stackOfOperations.Push(item.ToString());
+                        operations.Push((char)item);
                     }
-                    else if (item.ToString() == ")")
+                    else if ((char)item == ')')
                     {
-                        string last = stackOfOperations.Pop();
+                        char last = operations.Pop();
 
-                        while (last != "(")
+                        while (last != '(')
                         {
                             var op = last;
                             HandleOperation(op);
 
-                            last = stackOfOperations.Pop();
+                            last = operations.Pop();
                         }
                     }
 
                     else //определяем и совершаем действие
                     {
-                        int lastOperationFromStackQueue, thisOperationQueue;
-                        var lastOperationFromStack = stackOfOperations.Peek();
 
-                        levelsOfImportanceForOperations.TryGetValue(lastOperationFromStack, out lastOperationFromStackQueue);
-                        levelsOfImportanceForOperations.TryGetValue(item.ToString(), out thisOperationQueue);
+                        levelsOfImportanceForOperations.TryGetValue(operations.Peek(), out int lastOperationFromStackQueue);
+                        levelsOfImportanceForOperations.TryGetValue((char)item, out int thisOperationQueue);
 
                         if (lastOperationFromStackQueue >= thisOperationQueue)
                         {
-                            var op = stackOfOperations.Pop();
+                            var op = operations.Pop();
 
                             HandleOperation(op);
 
-                            stackOfOperations.Push(item.ToString());
+                            operations.Push((char)item);
                         }
                         else
                         {
-                            stackOfOperations.Push(item.ToString());
+                            operations.Push((char)item);
                         }
                     }
 
                 }
             }
 
-            while (stackOfOperations.Count != 0)
+            while (operations.Count != 0)
             {
-                var op = stackOfOperations.Pop();
+                var op = operations.Pop();
 
-                if (stackOfOperands.Count >= 2)
+                if (operands.Count >= 2)
                 {
                     HandleOperation(op);
                 }
                 else
                 {
-                    ErrorMessage = "Мало операндов";
-                    break;
+                    throw new Exception("Мало операндов");
                 }
             }
 
-            if (stackOfOperands.Count == 1)
+            if (operands.Count == 1)
             {
-                double result = stackOfOperands.Pop();
+                double result = operands.Pop();
                 return result;
             }
 
             else
             {
-                ErrorMessage = "Много операндов";
-                return 0;
+                throw new Exception("Много операндов");
             }
         }
-
-        private static void HandleOperation(string op)
+        private void HandleOperation(char op)
         {
-            double firstOperand, secondOperand;
 
-            if (stackOfOperands.TryPop(out secondOperand) && stackOfOperands.TryPop(out firstOperand))
+            if (operands.TryPop(out double secondOperand) && operands.TryPop(out double firstOperand))
             {
                 double resultOfoperation = 0;
                 switch (op)
                 {
-                    case "+": resultOfoperation = Sum(firstOperand, secondOperand); break;
-                    case "-": resultOfoperation = Substract(firstOperand, secondOperand); break;
-                    case "*": resultOfoperation = Multiply(firstOperand, secondOperand); break;
-                    case "/": resultOfoperation = Divide(firstOperand, secondOperand); break;
+                    case '+': resultOfoperation = firstOperand + secondOperand; break;
+                    case '-': resultOfoperation = firstOperand - secondOperand; break;
+                    case '*': resultOfoperation = firstOperand * secondOperand; break;
+                    case '/': resultOfoperation = firstOperand / secondOperand; break;
+                    case '%': resultOfoperation = firstOperand % secondOperand; break;
                 }
 
-                stackOfOperands.Push(resultOfoperation);
+                operands.Push(resultOfoperation);
             }
-        }
-
-        private static double Sum(double x, double y)
-        {
-            return x + y;
-        }
-
-        private static double Substract(double x, double y)
-        {
-            return x - y;
-        }
-
-        private static double Multiply(double x, double y)
-        {
-            return x * y;
-        }
-
-        private static double Divide(double x, double y)
-        {
-            return x / y;
-        }
-
-        public void ShowError()
-        {
-            method?.Invoke(ErrorMessage);
         }
     }
 }

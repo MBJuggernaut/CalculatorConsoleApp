@@ -4,9 +4,8 @@ using System.Text;
 
 namespace ReversePolishNotationConsoleApp
 {
-    interface IValidator
+    public interface IValidate
     {
-        bool IsValid(string input);
-        void ShowError();
+        bool IsValid(string input);        
     }
 }

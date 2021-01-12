@@ -5,29 +5,25 @@ namespace ReversePolishNotationConsoleApp
 {
     public class Program
     {           
-        static void Main(string[] args)
-        {
-            Action<string> method = (message) => { Console.WriteLine(message); };
-            List<char> operators = new List<char>() { '(', ')', '*', '/', '+', '-', ',' };
-            IValidator validator = new Validator(operators, method);
-            ICalculator calculator = new Calculator(method);
+        static void Main()
+        {                        
+            IValidate validator = new Validator();
+            ICalculate calculator = new Calculator();
+
             while (true)
             {
-                var input = Console.ReadLine();
-
-                if (validator.IsValid(input))
+                try
                 {
+                    var input = Console.ReadLine();
+                    validator.IsValid(input);
                     var transformedInput = Splitter.Transform(input);
-                    double result;
-
-                    if (calculator.TryToCalc(transformedInput, out result))
-                        Console.WriteLine(result);
-
-                    else calculator.ShowError();
+                    calculator.Calc(transformedInput);
                 }
-
-                else validator.ShowError();
-            }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }            
         }
 
 
