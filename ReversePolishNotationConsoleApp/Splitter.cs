@@ -6,17 +6,7 @@ namespace ReversePolishNotationConsoleApp
 {
     public class Splitter : ISplitter
     {
-        private readonly string pattern;
-
-        public Splitter(string pattern)
-        {
-            this.pattern = pattern;
-        }
-
-        public Splitter()
-        {
-            pattern = @"-?\d+(?:\,\d+)?";
-        }
+        private readonly string pattern = @"-?\d+(?:\,\d+)?";
 
         public List<object> MakeAListOfOperandsAndOperators(string input)
         {
@@ -65,7 +55,6 @@ namespace ReversePolishNotationConsoleApp
 
             if (alloperands.Count > 0)
                 return alloperands[0].Value;
-
 
             else
             {
