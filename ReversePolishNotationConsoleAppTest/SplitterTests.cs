@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using ReversePolishNotationConsoleApp;
+using System;
 using System.Collections.Generic;
 
 namespace ReversePolishNotationConsoleAppTest
@@ -17,6 +18,21 @@ namespace ReversePolishNotationConsoleAppTest
 
             CollectionAssert.AreEqual(actual, expectedResult);
         }
+
+        [TestCase("3--")]
+        [TestCase("2++")]
+        public void MakeAListOfOperandsAndOperatorsTest_WrongInput(string input)
+        {
+            try
+            {
+                List<object> actual = splitter.MakeAListOfOperandsAndOperators(input);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(ex.Message, "Не найден операнд");
+            }
+        }
+
 
     }
 }

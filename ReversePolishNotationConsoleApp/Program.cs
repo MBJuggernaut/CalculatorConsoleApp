@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace ReversePolishNotationConsoleApp
 {
@@ -18,7 +17,7 @@ namespace ReversePolishNotationConsoleApp
                     var input = Console.ReadLine();
                     validator.IsValid(input);
                     var splittedInput = splitter.MakeAListOfOperandsAndOperators(input);
-                    calculator.Calc(splittedInput);
+                    Console.WriteLine(calculator.Calc(splittedInput));
                 }
                 catch (Exception e)
                 {

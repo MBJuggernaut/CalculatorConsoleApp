@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace ReversePolishNotationConsoleApp
 {
-    public class Splitter: ISplitter
+    public class Splitter : ISplitter
     {
         private readonly string pattern;
 
         public Splitter(string pattern)
         {
-            this.pattern = pattern;   
+            this.pattern = pattern;
         }
 
         public Splitter()
@@ -62,15 +63,25 @@ namespace ReversePolishNotationConsoleApp
 
             var alloperands = Regex.Matches(rightpartofinput, pattern);
 
-            return alloperands[0].Value;
+            if (alloperands.Count > 0)
+                return alloperands[0].Value;
+
+
+            else
+            {
+                throw new Exception("Не найден операнд");
+            }
         }
         private void GetParseAndPutToOutput(string input, ref int index, ref List<object> output)
         {
             var nextOperand_string = GetNextOperand(input, index);
-            var nextOperand_double = double.Parse(nextOperand_string);
 
-            output.Add(nextOperand_double);
-            index += nextOperand_string.Length - 1;
+            if (double.TryParse(nextOperand_string, out double nextOperand_double))
+            {
+
+                output.Add(nextOperand_double);
+                index += nextOperand_string.Length - 1;
+            }
 
         }
     }
