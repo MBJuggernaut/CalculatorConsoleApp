@@ -7,30 +7,31 @@ namespace ReversePolishNotationConsoleApp
     public class Splitter : ISplitter
     {
         private readonly string pattern = @"-?\d+(?:\,\d+)?";
+        private List<object> output;
 
-        public List<object> MakeAListOfOperandsAndOperators(string input)
-        {
-            var output = new List<object>();
+        public List<object> SeparateOperandsAndOperators(string input)
+        {            
             char current;
+            output = new List<object>();
 
             for (int i = 0; i < input.Length; i++)
             {
                 current = input[i];
                 if (char.IsDigit(current))
                 {
-                    GetParseAndPutToOutput(input, ref i, ref output);
+                    GetParseAndPutToOutput(input, ref i);
                     continue;
                 }
                 else if (current == '-')
                 {
                     if (i == 0)
                     {
-                        GetParseAndPutToOutput(input, ref i, ref output);
+                        GetParseAndPutToOutput(input, ref i);
                         continue;
                     }
                     else if (!char.IsDigit(input[i - 1]))
                     {
-                        GetParseAndPutToOutput(input, ref i, ref output);
+                        GetParseAndPutToOutput(input, ref i);
                         continue;
                     }
                     else
@@ -61,7 +62,7 @@ namespace ReversePolishNotationConsoleApp
                 throw new Exception("Не найден операнд");
             }
         }
-        private void GetParseAndPutToOutput(string input, ref int index, ref List<object> output)
+        private void GetParseAndPutToOutput(string input, ref int index)
         {
             var nextOperand_string = GetNextOperand(input, index);
 

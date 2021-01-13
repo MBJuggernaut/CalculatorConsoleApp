@@ -4,6 +4,6 @@ namespace ReversePolishNotationConsoleApp
 {
     public interface ISplitter
     {
-        List<object> MakeAListOfOperandsAndOperators(string input);
+        List<object> SeparateOperandsAndOperators(string input);
     }
 }

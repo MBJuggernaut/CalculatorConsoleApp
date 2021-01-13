@@ -8,25 +8,23 @@ namespace ReversePolishNotationConsoleApp
 {
     public class Validator: IValidator
     {
-        private readonly string pattern;
-        private readonly List<char> operators;
+        private readonly string pattern = @"-?\d+(?:\,\d+)?";
+        private readonly List<char> operators = new List<char>() { '(', ')', '*', '/', '+', '-', ',' };
 
-        public Validator()
-        {
-            pattern = @"-?\d+(?:\,\d+)?";
-            operators = new List<char>() { '(', ')', '*', '/', '+', '-', ',' };
-        }
+        public Validator(){}
         public Validator(string newPattern)
         {            
             this.pattern = newPattern ?? @"-?\d+(?:\,\d+)?";            
         }
         public Validator(List<char> operators)
         {            
-            this.operators = operators;
+            this.operators = operators;            
         }
-        public bool IsValid(string input)
+
+
+        public bool Validate(string input)
         {
-            FixInput(ref input);
+            input = FixInput(input);
             return ContainsOnlyAllowedSymbols(input) && ContainsRightAmountOfBrackets(input) && !ContainsExtraComma(input);
         }
         private bool ContainsRightAmountOfBrackets(string input)
@@ -78,7 +76,7 @@ namespace ReversePolishNotationConsoleApp
 
             return false;
         }
-        public void FixInput(ref string input)
+        public string FixInput(string input)
         {
             input = input.Replace(" ", "");
 
@@ -96,8 +94,9 @@ namespace ReversePolishNotationConsoleApp
                         input = input.Insert(i, "*");
                     }
                 }
-            }
-            input = input.Replace("()", "0");
+            }            
+
+            return input;
         }
     }
 }

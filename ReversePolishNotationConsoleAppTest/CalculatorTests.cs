@@ -33,7 +33,7 @@ namespace ReversePolishNotationConsoleAppTest
 
         public void CalcTest_RightInput(string input, double result)
         {            
-            var transformedInput = splitter.MakeAListOfOperandsAndOperators(input);
+            var transformedInput = splitter.SeparateOperandsAndOperators(input);
             var actual = calculator.Calc(transformedInput);
 
             Assert.AreEqual(actual, result);
@@ -44,12 +44,11 @@ namespace ReversePolishNotationConsoleAppTest
         [TestCase("3**6+7")]
         [TestCase("++")]
 
-
         public void CalcTest_WrongInput_NotEnoughOperands(string input)
         {
             try
             {
-                var transformedInput = splitter.MakeAListOfOperandsAndOperators(input);
+                var transformedInput = splitter.SeparateOperandsAndOperators(input);
                 var actual = calculator.Calc(transformedInput);
             }
             catch(Exception ex)
@@ -58,15 +57,16 @@ namespace ReversePolishNotationConsoleAppTest
             }
             
         }
+
         [TestCase("4 4")]
         [TestCase("4*3-2+4 6 7")]
         [TestCase("3")]
         [TestCase("")]
-        public void CalcTest_WrongInput_NotEnoughOperations(string input)
+        public void CalcTest_WrongInput_NotEnoughOperators(string input)
         {
             try
             {
-                var transformedInput = splitter.MakeAListOfOperandsAndOperators(input);
+                var transformedInput = splitter.SeparateOperandsAndOperators(input);
                 var actual = calculator.Calc(transformedInput);
             }
             catch (Exception ex)

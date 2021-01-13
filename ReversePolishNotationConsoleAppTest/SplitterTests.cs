@@ -11,9 +11,9 @@ namespace ReversePolishNotationConsoleAppTest
         private readonly ISplitter splitter = new Splitter();
 
         [TestCase()]
-        public void MakeAListOfOperandsAndOperatorsTest()
+        public void SeparateOperandsAndOperatorsTest()
         {
-            List<object> actual = splitter.MakeAListOfOperandsAndOperators("2+3");
+            List<object> actual = splitter.SeparateOperandsAndOperators("2+3");
             List<object> expectedResult = new List<object>() { 2, '+', 3 };
 
             CollectionAssert.AreEqual(actual, expectedResult);
@@ -21,11 +21,11 @@ namespace ReversePolishNotationConsoleAppTest
 
         [TestCase("3--")]
         [TestCase("2++")]
-        public void MakeAListOfOperandsAndOperatorsTest_WrongInput(string input)
+        public void SeparateOperandsAndOperatorsTest_WrongInput(string input)
         {
             try
             {
-                List<object> actual = splitter.MakeAListOfOperandsAndOperators(input);
+                List<object> actual = splitter.SeparateOperandsAndOperators(input);
             }
             catch (Exception ex)
             {

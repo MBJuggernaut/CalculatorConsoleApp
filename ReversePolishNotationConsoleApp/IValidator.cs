@@ -6,6 +6,6 @@ namespace ReversePolishNotationConsoleApp
 {
     public interface IValidator
     {
-        bool IsValid(string input);        
+        bool Validate(string input);        
     }
 }

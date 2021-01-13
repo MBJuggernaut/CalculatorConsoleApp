@@ -10,24 +10,24 @@ namespace ReversePolishNotationConsoleAppTest
         private readonly IValidator validator = new Validator();
 
 
-        [TestCase("2+2", true)]
-        [TestCase("2+2*(30/2)", true)]
-        [TestCase("", true)]
+        [TestCase("2+2")]
+        [TestCase("2+2*(30/2)")]
+        [TestCase("")]
 
-        public void IsValidTest_RightInput(string input, bool expextedValue)
+        public void ValidateTest_RightInput(string input)
         {
-            var actual = validator.IsValid(input);
+            var actual = validator.Validate(input);
 
-            Assert.AreEqual(expextedValue, actual);
+            Assert.IsTrue(actual);
         }
 
         [TestCase("2+2ahsh")]
         [TestCase("x+y=4")]
-        public void IsValidTest_WrongInput_WithLetters(string input)
+        public void ValidateTest_WrongInput_WithLetters(string input)
         {
             try
             {
-                var transformedInput = validator.IsValid(input);
+                var transformedInput = validator.Validate(input);
             }
             catch (Exception ex)
             {
@@ -37,11 +37,11 @@ namespace ReversePolishNotationConsoleAppTest
 
         [TestCase("2_2")]
         [TestCase("2=22")]
-        public void IsValidTest_WrongInput_WithUnAllowedSymbols(string input)
+        public void ValidateTest_WrongInput_WithUnAllowedSymbols(string input)
         {
             try
             {
-                var transformedInput = validator.IsValid(input);
+                var transformedInput = validator.Validate(input);
             }
             catch (Exception ex)
             {
@@ -49,12 +49,12 @@ namespace ReversePolishNotationConsoleAppTest
             }
         }
 
-        [TestCase("45,2,2")]
-        public void IsValidTest_WrongInput_ExtraComma(string input)
+        [Test]
+        public void ValidateTest_WrongInput_ExtraComma()
         {
             try
             {
-                var transformedInput = validator.IsValid(input);
+                var transformedInput = validator.Validate("45,2,2");
             }
             catch (Exception ex)
             {
@@ -62,12 +62,12 @@ namespace ReversePolishNotationConsoleAppTest
             }
         }
 
-        [TestCase("23(()")]
-        public void IsValidTest_WrongInput_NotRightAmountOfBrackets(string input)
+        [Test]
+        public void ValidateTest_WrongInput_NotRightAmountOfBrackets()
         {
             try
             {
-                var transformedInput = validator.IsValid(input);
+                var transformedInput = validator.Validate("23(()");
             }
             catch (Exception ex)
             {

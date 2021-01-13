@@ -29,22 +29,24 @@ namespace ReversePolishNotationConsoleApp
                 }
                 else
                 {
+                    char thisOperator = (char)item;
+
                     if (operations.Count == 0)
                     {
-                        operations.Push((char)item);
+                        operations.Push(thisOperator);
                     }
 
-                    else if ((char)item=='(')
+                    else if (thisOperator == '(')
                     {
-                        operations.Push((char)item);
+                        operations.Push(thisOperator);
                     }
-                    else if ((char)item == ')') 
+                    else if (thisOperator == ')')
                     {
                         DoWhatIsBetweenBrackets();                        
                     }
                     else
                     {
-                        ChooseAndDoNextAction(item);                        
+                        ChooseAndDoNextAction(thisOperator);                        
                     }
                 }
             }
@@ -93,11 +95,11 @@ namespace ReversePolishNotationConsoleApp
         /// <summary>
         /// Исходя из заданной важности операций решаем, отправить текущую оперцию в стек, или проделать уже лежащие в стеке более важные операции
         /// </summary>
-        private void ChooseAndDoNextAction(object item)
+        private void ChooseAndDoNextAction(char thisOperator)
         {
             
             levelsOfImportanceForOperations.TryGetValue(operations.Peek(), out int lastOperationFromStackQueue);
-            levelsOfImportanceForOperations.TryGetValue((char)item, out int thisOperationQueue);
+            levelsOfImportanceForOperations.TryGetValue(thisOperator, out int thisOperationQueue);
 
             if (lastOperationFromStackQueue >= thisOperationQueue)
             {
@@ -105,11 +107,11 @@ namespace ReversePolishNotationConsoleApp
 
                 HandleOperation(op);
 
-                operations.Push((char)item);
+                operations.Push(thisOperator);
             }
             else
             {
-                operations.Push((char)item);
+                operations.Push(thisOperator);
             }
         }
         private void HandleOperation(char operationToHandle)

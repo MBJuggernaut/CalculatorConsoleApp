@@ -15,9 +15,9 @@ namespace ReversePolishNotationConsoleApp
                 try
                 {
                     var input = Console.ReadLine();
-                    validator.IsValid(input);
-                    var splittedInput = splitter.MakeAListOfOperandsAndOperators(input);
-                    Console.WriteLine(calculator.Calc(splittedInput));
+                    validator.Validate(input);
+                    var separatedOperandsAndOperators = splitter.SeparateOperandsAndOperators(input);
+                    Console.WriteLine(calculator.Calc(separatedOperandsAndOperators));
                 }
                 catch (Exception e)
                 {
