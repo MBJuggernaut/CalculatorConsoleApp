@@ -59,12 +59,12 @@ namespace NewReversePolishNotationConsoleApp
 
         private static bool IsOperator(char symbol)
         {
-            return LogicContainer.OperationsAndTheirImportance.ContainsKey(symbol);
+            return OperationsLogicContainer.OperationsAndTheirImportance.ContainsKey(symbol);
         }
         private static byte GetPriority(char thisOperator)
         {
             byte i;
-            LogicContainer.OperationsAndTheirImportance.TryGetValue(thisOperator, out i);
+            OperationsLogicContainer.OperationsAndTheirImportance.TryGetValue(thisOperator, out i);
             return i;         
         }
 

@@ -14,6 +14,8 @@ namespace NewReversePolishNotationConsoleAppTests
         [TestCase("2 5 * 4 / ", 2.5)]
         [TestCase("2 3 2 2 + * + ", 14)]
         [TestCase("6 2 /", 3)]
+        [TestCase("3 - - 5 + ", 8)]
+        
         public void CalculateTests(string input, double expected)
         {
             var actual = Calculator.Calculate(input);
