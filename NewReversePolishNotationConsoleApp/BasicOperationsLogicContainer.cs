@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace NewReversePolishNotationConsoleApp
 {
-    public static class OperationsLogicContainer
-    {
-        public static Dictionary<char, byte> OperationsAndTheirImportance;
+    public class BasicOperationsLogicContainer: IOperationsLogicContainer
+    {        
+       public  Dictionary<char, byte> OperationsAndTheirImportance { get;}
 
-        static OperationsLogicContainer()
+        public BasicOperationsLogicContainer()
         {
             OperationsAndTheirImportance = new Dictionary<char, byte>()
             {
@@ -19,7 +19,12 @@ namespace NewReversePolishNotationConsoleApp
                 ['/'] = 2
             };
         }
-        public static double PerformOperation(char thisOperator, double firstOperand, double secondOperand)
+        public BasicOperationsLogicContainer(Dictionary<char, byte> OperationsAndTheirImportance)
+        {
+            this.OperationsAndTheirImportance = OperationsAndTheirImportance;
+        }
+       
+        public double PerformOperation(char thisOperator, double firstOperand, double secondOperand)
         {            
             switch (thisOperator)
             {

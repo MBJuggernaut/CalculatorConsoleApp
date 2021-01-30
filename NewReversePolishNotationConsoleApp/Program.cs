@@ -4,21 +4,18 @@ namespace NewReversePolishNotationConsoleApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
+            var provider = MyContainer.Initialize();
+            ICalculate calculator = new Calculator(provider);
+
             while (true)
             {
                 string input = Console.ReadLine();
 
                 try
-                {
-                    Fixer.Fix(ref input);
-
-                    Validator.Validate(input);
-
-                    string expression = ToPolishNotationParser.Parse(input);
-
-                    Console.WriteLine(Calculator.Calculate(expression));
+                {                   
+                    Console.WriteLine(calculator.Calculate(input));
                 }
                 catch (Exception e)
                 {
@@ -27,4 +24,5 @@ namespace NewReversePolishNotationConsoleApp
             }
         }
     }
+
 }

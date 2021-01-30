@@ -1,8 +1,8 @@
 ﻿namespace NewReversePolishNotationConsoleApp
 {
-    public static class Fixer
+    public class Fixer : IFix
     {
-        public static void Fix(ref string input)
+        public void Fix(ref string input)
         {
             input = input.Replace(" ", "");
 

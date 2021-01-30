@@ -1,4 +1,5 @@
-﻿using NewReversePolishNotationConsoleApp;
+﻿using Moq;
+using NewReversePolishNotationConsoleApp;
 using NUnit.Framework;
 using System;
 
@@ -6,13 +7,19 @@ namespace NewReversePolishNotationConsoleAppTests
 {
     class ValidatorTests
     {
+        IValidate validator;
+        public ValidatorTests()
+        {
+            BasicOperationsLogicContainer logicContainer = new BasicOperationsLogicContainer();
+            validator = new Validator(logicContainer);
+        }
         [TestCase("2+2")]
         [TestCase("2+2*(30/2)")]
         [TestCase("")]
 
         public void ValidateTest_RightInput(string input)
         {
-            bool actual = Validator.Validate(input);
+            bool actual = validator.IsValid(input);
 
             Assert.IsTrue(actual);
         }
@@ -23,7 +30,7 @@ namespace NewReversePolishNotationConsoleAppTests
         {
             try
             {
-                var transformedInput = Validator.Validate(input);
+                var transformedInput = validator.IsValid(input);
             }
             catch (Exception ex)
             {
@@ -37,7 +44,7 @@ namespace NewReversePolishNotationConsoleAppTests
         {
             try
             {
-                var transformedInput = Validator.Validate(input);
+                var transformedInput = validator.IsValid(input);
             }
             catch (Exception ex)
             {
@@ -51,7 +58,7 @@ namespace NewReversePolishNotationConsoleAppTests
             var input = "45,2,2";
             try
             {
-                var transformedInput = Validator.Validate(input);
+                var transformedInput = validator.IsValid(input);
             }
             catch (Exception ex)
             {
@@ -65,7 +72,7 @@ namespace NewReversePolishNotationConsoleAppTests
             var input = "23(()";
             try
             {
-                var transformedInput = Validator.Validate(input);
+                var transformedInput = validator.IsValid(input);
             }
             catch (Exception ex)
             {

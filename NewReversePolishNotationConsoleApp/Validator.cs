@@ -2,9 +2,15 @@
 
 namespace NewReversePolishNotationConsoleApp
 {
-    public static class Validator
+    public class Validator : IValidate
     {
-        public static bool Validate(string input)
+        IOperationsLogicContainer logicContainer;
+
+        public Validator(IOperationsLogicContainer logicContainer)
+        {
+            this.logicContainer = logicContainer;
+        }
+        public bool IsValid(string input)
         {
             return ContainsOnlyAllowedSymbols(input) && BracketsAreAlright(input) && !ContainsExtraComma(input);
         }
@@ -31,7 +37,7 @@ namespace NewReversePolishNotationConsoleApp
 
             return true;
         }
-        private static bool ContainsOnlyAllowedSymbols(string input)
+        private bool ContainsOnlyAllowedSymbols(string input)
         {
             char current;
 
@@ -45,7 +51,7 @@ namespace NewReversePolishNotationConsoleApp
                 {
                     throw new Exception("Строка не должна содержать букв");
                 }
-                if (!OperationsLogicContainer.OperationsAndTheirImportance.ContainsKey(current))
+                if (!logicContainer.OperationsAndTheirImportance.ContainsKey(current))
                 {
                     throw new Exception("Строка содержит символы, которых быть не должно");
                 }

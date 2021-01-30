@@ -3,13 +3,20 @@ using System.Collections.Generic;
 
 namespace NewReversePolishNotationConsoleApp
 {
-    public static class ToPolishNotationParser
+    public class ToPolishNotationParser: IToPolishNotationParser
     {
-        public static string Parse(string input)
+        IOperationsLogicContainer logicContainer;
+
+        public ToPolishNotationParser(IOperationsLogicContainer logicContainer)
+        {
+            this.logicContainer = logicContainer;
+        }
+
+        public string Parse(string input)
         {
             string output = string.Empty; //Строка для хранения выражения
             Stack<char> operStack = new Stack<char>(); //Стек для хранения операторов
-            
+
 
             for (int i = 0; i < input.Length; i++) //Для каждого символа в входной строке
             {
@@ -21,12 +28,12 @@ namespace NewReversePolishNotationConsoleApp
                         output += input[i]; //Добавляем каждую цифру числа к нашей строке
                         i++; //Переходим к следующему символу   
                         if (i == input.Length) break;
-                    } 
+                    }
 
                     output += " "; //Дописываем после числа пробел в строку с выражением
                     i--; //Возвращаемся на один символ назад, к символу перед разделителем
                 }
-                if (IsOperator(input[i])) //Если оператор
+                else if (IsOperator(input[i])) //Если оператор
                 {
                     if (input[i] == '(') //Если символ - открывающая скобка
                         operStack.Push(input[i]); //Записываем её в стек
@@ -57,15 +64,15 @@ namespace NewReversePolishNotationConsoleApp
             return output;
         }
 
-        private static bool IsOperator(char symbol)
+        private bool IsOperator(char symbol)
         {
-            return OperationsLogicContainer.OperationsAndTheirImportance.ContainsKey(symbol);
+            return logicContainer.OperationsAndTheirImportance.ContainsKey(symbol);
         }
-        private static byte GetPriority(char thisOperator)
+        private byte GetPriority(char thisOperator)
         {
             byte i;
-            OperationsLogicContainer.OperationsAndTheirImportance.TryGetValue(thisOperator, out i);
-            return i;         
+            logicContainer.OperationsAndTheirImportance.TryGetValue(thisOperator, out i);
+            return i;
         }
 
     }
