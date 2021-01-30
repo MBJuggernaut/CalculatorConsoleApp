@@ -14,7 +14,7 @@ namespace ReversePolishNotationConsoleApp
             ['-'] = 1,
             ['*'] = 2,
             ['/'] = 2
-        };
+        };        
 
         public double Calc(List<object> input)
         {
