@@ -4,9 +4,8 @@ namespace NewReversePolishNotationConsoleApp
 {
     public static class Validator
     {
-        public static bool Validate(ref string input)
+        public static bool Validate(string input)
         {
-            input = FixInput(input);
             return ContainsOnlyAllowedSymbols(input) && BracketsAreAlright(input) && !ContainsExtraComma(input);
         }
         private static bool BracketsAreAlright(string input)
@@ -74,14 +73,6 @@ namespace NewReversePolishNotationConsoleApp
             }
 
             return false;
-        }
-        public static string FixInput(string input)
-        {
-            input = input.Replace(" ", "");
-
-            input = input.Replace('.', ',');
-
-            return input;
         }
     }
 }

@@ -12,7 +12,9 @@ namespace NewReversePolishNotationConsoleApp
 
                 try
                 {
-                    Validator.Validate(ref input);
+                    Fixer.Fix(ref input);
+
+                    Validator.Validate(input);
 
                     string expression = ToPolishNotationParser.Parse(input);
 

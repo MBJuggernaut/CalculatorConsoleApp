@@ -12,7 +12,7 @@ namespace NewReversePolishNotationConsoleAppTests
 
         public void ValidateTest_RightInput(string input)
         {
-            bool actual = Validator.Validate(ref input);
+            bool actual = Validator.Validate(input);
 
             Assert.IsTrue(actual);
         }
@@ -23,7 +23,7 @@ namespace NewReversePolishNotationConsoleAppTests
         {
             try
             {
-                var transformedInput = Validator.Validate(ref input);
+                var transformedInput = Validator.Validate(input);
             }
             catch (Exception ex)
             {
@@ -37,7 +37,7 @@ namespace NewReversePolishNotationConsoleAppTests
         {
             try
             {
-                var transformedInput = Validator.Validate(ref input);
+                var transformedInput = Validator.Validate(input);
             }
             catch (Exception ex)
             {
@@ -51,7 +51,7 @@ namespace NewReversePolishNotationConsoleAppTests
             var input = "45,2,2";
             try
             {
-                var transformedInput = Validator.Validate(ref input);
+                var transformedInput = Validator.Validate(input);
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace NewReversePolishNotationConsoleAppTests
             var input = "23(()";
             try
             {
-                var transformedInput = Validator.Validate(ref input);
+                var transformedInput = Validator.Validate(input);
             }
             catch (Exception ex)
             {
