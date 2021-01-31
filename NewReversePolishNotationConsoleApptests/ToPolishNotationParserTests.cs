@@ -17,7 +17,7 @@ namespace NewReversePolishNotationConsoleAppTests
         [TestCase("2+2*2", "2 2 2 * + ")]
         [TestCase("2*5/4", "2 5 * 4 / ")]
         [TestCase("2+3*(2+2)", "2 3 2 2 + * + ")]
-        [TestCase("-(-3)+5", "3 - - 5 + ")]
+        [TestCase("-(-3)+5", "-3 - 5 + ")]
         [TestCase("1+2*(3+4/2-(1+2))*2+1", "1 2 3 4 2 / 1 2 + - + * 2 * 1 + + ")]   
 
 

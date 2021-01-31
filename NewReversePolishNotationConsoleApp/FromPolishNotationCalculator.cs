@@ -15,41 +15,35 @@ namespace NewReversePolishNotationConsoleApp
 
         public double Calculate(string input)
         {
+            string[] s = input.Split(" ");
             double result = 0; //Результат            
             Stack<double> temp = new Stack<double>(); // Стек для решения
 
-            for (int i = 0; i < input.Length; i++) //Для каждого символа в строке
+            for (int i = 0; i < s.Length; i++) //Для каждого символа в строке
             {
-                //Если символ - цифра, то читаем все число и записываем на вершину стека
-                if (Char.IsDigit(input[i]))
+                if (s[i] == "")
                 {
-                    string a = string.Empty;
-
-                    while (!IsOperator(input[i]) && input[i] != ' ') //Пока не разделитель
-                    {
-                        a += input[i]; //Добавляем
-                        i++;
-                        if (i == input.Length) break;
-                    }
-                    temp.Push(double.Parse(a)); //Записываем в стек
-                    i--;
+                    continue;
                 }
-                else if (IsOperator(input[i])) //Если символ - оператор
+                //Если число, то записываем его в стек 
+                if (double.TryParse(s[i], out result))
+                {
+                    temp.Push(result);
+                    continue;
+                }
+                //Если не число, то считаем, и записываем
+                else
                 {
                     double firstOperand, secondOperand = 0;
                     //Берем два последних значения из стека
                     temp.TryPop(out secondOperand);
                     temp.TryPop(out firstOperand);
-                    result = logicContainer.PerformOperation(input[i], firstOperand, secondOperand);//Считаем
+                    result = logicContainer.PerformOperation(Char.Parse(s[i]), firstOperand, secondOperand);//Считаем
 
                     temp.Push(result); //Результат вычисления записываем обратно в стек
                 }
             }
             return temp.Peek(); //Возвращаем результат всех вычислений из стека
-        }
-        private bool IsOperator(char symbol)
-        {
-            return logicContainer.OperationsAndTheirImportance.ContainsKey(symbol);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NewReversePolishNotationConsoleApp
 {
@@ -14,7 +15,7 @@ namespace NewReversePolishNotationConsoleApp
                 string input = Console.ReadLine();
 
                 try
-                {                   
+                {
                     Console.WriteLine(calculator.Calculate(input));
                 }
                 catch (Exception e)
@@ -24,5 +25,5 @@ namespace NewReversePolishNotationConsoleApp
             }
         }
     }
-
 }
+
