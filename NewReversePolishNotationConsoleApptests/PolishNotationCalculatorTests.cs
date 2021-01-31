@@ -3,11 +3,10 @@ using NUnit.Framework;
 
 namespace NewReversePolishNotationConsoleAppTests
 {
-
-    public class FromPolishNotationCalculatorTests
+    public class PolishNotationCalculatorTests
     {
         IPolishNotationCalculate calculator;
-        public FromPolishNotationCalculatorTests()
+        public PolishNotationCalculatorTests()
         {
             BasicOperationsLogicContainer logicContainer = new BasicOperationsLogicContainer();
             calculator = new PolishNotationCalculator(logicContainer);
@@ -19,9 +18,7 @@ namespace NewReversePolishNotationConsoleAppTests
         [TestCase("2 3 2 2 + * + ", 14)]
         [TestCase("6 2 /", 3)]
         [TestCase("3 - - 5 + ", 8)]       
-        [TestCase("1 2 3 4 2 / 1 2 + - + * 2 * 1 + + ", 10)] 
-
-        
+        [TestCase("1 2 3 4 2 / 1 2 + - + * 2 * 1 + + ", 10)]         
         public void CalculateTests(string input, double expected)
         {
             var actual = calculator.Calculate(input);

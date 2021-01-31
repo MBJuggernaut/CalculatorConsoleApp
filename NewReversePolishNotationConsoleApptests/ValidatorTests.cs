@@ -1,5 +1,4 @@
-﻿using Moq;
-using NewReversePolishNotationConsoleApp;
+﻿using NewReversePolishNotationConsoleApp;
 using NUnit.Framework;
 using System;
 
@@ -13,10 +12,10 @@ namespace NewReversePolishNotationConsoleAppTests
             var logicContainer = new BasicOperationsLogicContainer();
             validator = new InputValidator(logicContainer);
         }
+
         [TestCase("2+2")]
         [TestCase("2+2*(30/2)")]
         [TestCase("")]
-
         public void ValidateTest_RightInput(string input)
         {
             bool actual = validator.IsValid(input);
@@ -52,31 +51,48 @@ namespace NewReversePolishNotationConsoleAppTests
             }
         }
 
-        [Test]
-        public void ValidateTest_WrongInput_ExtraComma()
+        [TestCase("45,2,2")]
+        [TestCase(",2,2")]
+        [TestCase(",22")]
+        public void ValidateTest_WrongInput_ExtraComma(string input)
         {
-            var input = "45,2,2";
+            var expected = "Слишком много запятых в одном из операндов";
             try
             {
                 var transformedInput = validator.IsValid(input);
             }
             catch (Exception ex)
             {
-                Assert.AreEqual(ex.Message, "Слишком много запятых в одном из операндов");
+                Assert.AreEqual(ex.Message, expected);
             }
         }
 
-        [Test]
-        public void ValidateTest_WrongInput_NotRightAmountOfBrackets()
+        [TestCase("23(()")]
+        public void ValidateTest_WrongInput_NotRightAmountOfBrackets(string input)
         {
-            var input = "23(()";
+            var expected = "Открывающих и закрывающих скобок должно быть одинаковое количество";
             try
             {
                 var transformedInput = validator.IsValid(input);
             }
             catch (Exception ex)
             {
-                Assert.AreEqual(ex.Message, "Открывающих и закрывающих скобок должно быть одинаковое количество");
+                Assert.AreEqual(ex.Message, expected);
+            }
+        }
+
+        [TestCase(")(")]
+        [TestCase("(2))")]
+        public void ValidateTest_WrongInput_NotRightOrderOfBrackets(string input)
+        {
+            var expected = "Закрывающая скобка не должна идти раньше открывающей";
+            try
+            {
+                var transformedInput = validator.IsValid(input);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(ex.Message, expected);
             }
         }
     }

@@ -38,6 +38,11 @@ namespace NewReversePolishNotationConsoleApp
                     operands.Push(result);
                 }
             }
+
+            if (operands.Count != 1)
+            {
+                throw new System.Exception("Не удалось подсчитать выражение");
+            }
             return operands.Peek();
         }
     }
