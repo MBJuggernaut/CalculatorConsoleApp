@@ -1,12 +1,12 @@
 ﻿namespace NewReversePolishNotationConsoleApp
 {
-    public class Fixer : IFix
+    public class InputFixer : IFixInput
     {
-        public void Fix(ref string input)
+        public string Fix(string input)
         {
             input = input.Replace(" ", "");
-
             input = input.Replace('.', ',');
+            return input;
         }
     }
 }

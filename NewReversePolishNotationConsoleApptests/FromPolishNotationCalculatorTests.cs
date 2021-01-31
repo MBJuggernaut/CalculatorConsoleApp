@@ -1,20 +1,16 @@
-﻿using Moq;
-using NewReversePolishNotationConsoleApp;
+﻿using NewReversePolishNotationConsoleApp;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NewReversePolishNotationConsoleAppTests
 {
 
     public class FromPolishNotationCalculatorTests
     {
-        IFromPolishNotationCalculate calculator;
+        IPolishNotationCalculate calculator;
         public FromPolishNotationCalculatorTests()
         {
             BasicOperationsLogicContainer logicContainer = new BasicOperationsLogicContainer();
-            calculator = new FromPolishNotationCalculator(logicContainer);
+            calculator = new PolishNotationCalculator(logicContainer);
         }
         [TestCase("2 3 + ", 5)]
         [TestCase("2 3 * " , 6)]

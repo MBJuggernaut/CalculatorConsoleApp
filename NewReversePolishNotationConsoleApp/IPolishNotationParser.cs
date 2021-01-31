@@ -1,6 +1,6 @@
 ﻿namespace NewReversePolishNotationConsoleApp
 {
-    public interface IToPolishNotationParser
+    public interface IPolishNotationParser
     {
         /// <summary>
         /// Возвращает строку, с переведенным в польскую запись выражением

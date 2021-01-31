@@ -6,11 +6,11 @@ namespace NewReversePolishNotationConsoleAppTests
 {
     public class ToPolishNotationParserTests
     {
-        IToPolishNotationParser parser;
+        IPolishNotationParser parser;
         public ToPolishNotationParserTests()
         {
             BasicOperationsLogicContainer logicContainer = new BasicOperationsLogicContainer();
-            parser = new ToPolishNotationParser(logicContainer);
+            parser = new PolishNotationParser(logicContainer);
         }
         [TestCase("2+3", "2 3 + ")]
         [TestCase("2*3", "2 3 * ")]

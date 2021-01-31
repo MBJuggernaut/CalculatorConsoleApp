@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NewReversePolishNotationConsoleApp
 {
@@ -8,8 +8,7 @@ namespace NewReversePolishNotationConsoleApp
         static void Main()
         {
             var provider = MyContainer.Initialize();
-            ICalculate calculator = new Calculator(provider);
-
+            ICalculate calculator = provider.GetService<ICalculate>();
             while (true)
             {
                 string input = Console.ReadLine();

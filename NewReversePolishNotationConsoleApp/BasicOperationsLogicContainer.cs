@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace NewReversePolishNotationConsoleApp
 {
-    public class BasicOperationsLogicContainer: IOperationsLogicContainer
-    {        
-       public  Dictionary<char, byte> OperationsAndTheirImportance { get;}
+    public class BasicOperationsLogicContainer : IOperationsLogicContainer
+    {
+        public Dictionary<char, byte> OperationsAndTheirImportance { get; }
 
         public BasicOperationsLogicContainer()
         {
@@ -19,13 +19,8 @@ namespace NewReversePolishNotationConsoleApp
                 ['/'] = 2
             };
         }
-        public BasicOperationsLogicContainer(Dictionary<char, byte> OperationsAndTheirImportance)
-        {
-            this.OperationsAndTheirImportance = OperationsAndTheirImportance;
-        }
-       
         public double PerformOperation(char thisOperator, double firstOperand, double secondOperand)
-        {            
+        {
             switch (thisOperator)
             {
                 case '+': return firstOperand + secondOperand;
@@ -33,7 +28,7 @@ namespace NewReversePolishNotationConsoleApp
                 case '*': return firstOperand * secondOperand;
                 case '/': return firstOperand / secondOperand;
                 default: throw new Exception("Операция не найдена");
-            }           
+            }
         }
     }
 }

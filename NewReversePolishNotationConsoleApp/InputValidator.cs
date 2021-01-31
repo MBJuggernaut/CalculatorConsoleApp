@@ -2,11 +2,11 @@
 
 namespace NewReversePolishNotationConsoleApp
 {
-    public class Validator : IValidate
+    public class InputValidator : IValidateUserInput
     {
-        IOperationsLogicContainer logicContainer;
+        private readonly IOperationsLogicContainer logicContainer;
 
-        public Validator(IOperationsLogicContainer logicContainer)
+        public InputValidator(IOperationsLogicContainer logicContainer)
         {
             this.logicContainer = logicContainer;
         }
@@ -46,7 +46,9 @@ namespace NewReversePolishNotationConsoleApp
                 current = input[i];
 
                 if (char.IsDigit(current) || current == ',')
+                {
                     continue;
+                }
                 if (char.IsLetter(current))
                 {
                     throw new Exception("Строка не должна содержать букв");

@@ -7,11 +7,11 @@ namespace NewReversePolishNotationConsoleAppTests
 {
     class ValidatorTests
     {
-        IValidate validator;
+        IValidateUserInput validator;
         public ValidatorTests()
         {
-            BasicOperationsLogicContainer logicContainer = new BasicOperationsLogicContainer();
-            validator = new Validator(logicContainer);
+            var logicContainer = new BasicOperationsLogicContainer();
+            validator = new InputValidator(logicContainer);
         }
         [TestCase("2+2")]
         [TestCase("2+2*(30/2)")]

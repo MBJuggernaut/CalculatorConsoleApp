@@ -1,12 +1,15 @@
 ﻿namespace NewReversePolishNotationConsoleApp
 {
+    /// <summary>
+    /// Объединяет в себе функционал остальных классов
+    /// </summary>
     public interface ICalculate
     {
         double Calculate(string input);
-        IFix fixer { get; }
-        IValidate validator { get; }
-        IToPolishNotationParser parser { get; }
-        IFromPolishNotationCalculate calculator { get; }
+        IFixInput InputFixer { get; }
+        IValidateUserInput InputValidator { get; }
+        IPolishNotationParser PolishNotationParser { get; }
+        IPolishNotationCalculate PolishNotationCalculator { get; }
     }
 
 }
